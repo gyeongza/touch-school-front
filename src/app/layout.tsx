@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import ReactQueryProvider from '@/shared/components/ReactQueryProvider';
 
 const pretendard = localFont({
   preload: true,
@@ -62,7 +63,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.className} bg-white`}>{children}</body>
+      <body className={`${pretendard.className} bg-white`}>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
