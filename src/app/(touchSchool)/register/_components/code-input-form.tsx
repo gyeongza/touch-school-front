@@ -11,11 +11,13 @@ import { Button } from '@/shared/ui/button';
 
 export default function CodeInputForm() {
   const router = useRouter();
-  const { ...registerState } = useRegisterState();
+
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');
   const [timeLeft, setTimeLeft] = useState(180);
   const [isExpired, setIsExpired] = useState(false);
+
+  const { ...registerState } = useRegisterState();
 
   if (!registerState.userInfo.phoneNumber) {
     useEffect(() => {
