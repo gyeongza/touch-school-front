@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@/shared/components/common/Input';
-import { useUserState } from '../_store';
+import { useRegisterState } from '../_store';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { RegisterApi } from '../_api';
@@ -11,13 +11,13 @@ import { Button } from '@/shared/ui/button';
 
 export default function CodeInputForm() {
   const router = useRouter();
-  const { ...userState } = useUserState();
+  const { ...registerState } = useRegisterState();
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('');
-  const [timeLeft, setTimeLeft] = useState(180); // 3분 = 180초
+  const [timeLeft, setTimeLeft] = useState(180);
   const [isExpired, setIsExpired] = useState(false);
 
-  if (!userState.phoneNumber) {
+  if (!registerState.userInfo.phoneNumber) {
     useEffect(() => {
       router.push('/register/phone');
     }, []);
@@ -43,7 +43,7 @@ export default function CodeInputForm() {
   };
 
   const { mutate: resendCode } = useMutation({
-    mutationFn: () => RegisterApi.getVerifyCode(userState.phoneNumber),
+    mutationFn: () => RegisterApi.getVerifyCode(registerState.userInfo.phoneNumber),
     onSuccess: () => {
       setTimeLeft(180);
       setIsExpired(false);
@@ -56,7 +56,7 @@ export default function CodeInputForm() {
   });
 
   const { mutate: verifyCode } = useMutation({
-    mutationFn: () => RegisterApi.verifyCode(userState.phoneNumber, code),
+    mutationFn: () => RegisterApi.verifyCode(registerState.userInfo.phoneNumber, code),
     onSuccess: () => {
       router.push('/register/user-info');
     },
