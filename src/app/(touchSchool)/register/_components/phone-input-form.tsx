@@ -13,11 +13,11 @@ export default function PhoneInputForm() {
   const router = useRouter();
   const [message, setMessage] = useState('');
 
-  const { ...registerState } = useRegisterState();
+  const { userInfo } = useRegisterState();
   const { setPhoneNumber } = useRegisterActions();
 
   const { mutate: sendVerifyCode } = useMutation({
-    mutationFn: () => RegisterApi.getVerifyCode(registerState.userInfo.phoneNumber),
+    mutationFn: () => RegisterApi.getVerifyCode(userInfo.phoneNumber),
     onSuccess: () => {
       router.push('/register/verify');
     },
@@ -39,7 +39,7 @@ export default function PhoneInputForm() {
             className="rounded-none border-x-0 border-y-0 border-b-2 border-t-0 border-black p-0 text-xl"
             type="text"
             placeholder="휴대폰 번호"
-            value={registerState.userInfo.phoneNumber}
+            value={userInfo.phoneNumber}
             onChange={handlePhoneNumberChange}
           />
           {message && <div className="text-red-500">{message}</div>}

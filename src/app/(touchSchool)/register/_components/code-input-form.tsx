@@ -17,9 +17,9 @@ export default function CodeInputForm() {
   const [timeLeft, setTimeLeft] = useState(180);
   const [isExpired, setIsExpired] = useState(false);
 
-  const { ...registerState } = useRegisterState();
+  const { userInfo } = useRegisterState();
 
-  if (!registerState.userInfo.phoneNumber) {
+  if (!userInfo.phoneNumber) {
     useEffect(() => {
       router.push('/register/phone');
     }, []);
@@ -45,7 +45,7 @@ export default function CodeInputForm() {
   };
 
   const { mutate: resendCode } = useMutation({
-    mutationFn: () => RegisterApi.getVerifyCode(registerState.userInfo.phoneNumber),
+    mutationFn: () => RegisterApi.getVerifyCode(userInfo.phoneNumber),
     onSuccess: () => {
       setTimeLeft(180);
       setIsExpired(false);
@@ -58,9 +58,13 @@ export default function CodeInputForm() {
   });
 
   const { mutate: verifyCode } = useMutation({
-    mutationFn: () => RegisterApi.verifyCode(registerState.userInfo.phoneNumber, code),
-    onSuccess: () => {
-      router.push('/register/user-info');
+    mutationFn: () => RegisterApi.verifyCode(userInfo.phoneNumber, code),
+    onSuccess: async (res) => {
+      if (res.isExistingUser) {
+        router.push('/');
+      } else {
+        router.push('/register/user-info');
+      }
     },
     onError: () => {
       setMessage('인증번호가 일치하지 않습니다.');

@@ -1,13 +1,16 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import type { RegisterFunnelStep } from '../_components/register-funnel';
+import type { RegisterFunnelStep } from '../_components/user-info/register-funnel';
 
 interface RegisterState {
   currentStep: RegisterFunnelStep;
   userInfo: {
     name: string;
     phoneNumber: string;
-    schoolName: string;
+    school: {
+      id: number | undefined;
+      name: string;
+    };
     grade: string;
     class: string;
   };
@@ -15,11 +18,11 @@ interface RegisterState {
 }
 
 interface RegisterActions {
-  goNext: () => void;
-  goBack: () => void;
   setPhoneNumber: (phoneNumber: string) => void;
   setName: (name: string) => void;
-  setSchoolInfo: (schoolName: string, grade: string, className: string) => void;
+  setSchoolInfo: (updates: Partial<Pick<RegisterState['userInfo'], 'school' | 'grade' | 'class'>>) => void;
+  goNext: () => void;
+  goBack: () => void;
   reset: () => void;
 }
 
@@ -31,11 +34,32 @@ const useRegisterStore = create<RegisterState>()(
     userInfo: {
       name: '',
       phoneNumber: '',
-      schoolName: '',
+      school: {
+        id: undefined,
+        name: '',
+      },
       grade: '',
       class: '',
     },
     actions: {
+      setPhoneNumber: (phoneNumber) => {
+        set((state) => {
+          state.userInfo.phoneNumber = phoneNumber;
+        });
+      },
+      setName: (name) => {
+        set((state) => {
+          state.userInfo.name = name;
+        });
+      },
+      setSchoolInfo: (updates) => {
+        set((state) => {
+          state.userInfo = {
+            ...state.userInfo,
+            ...updates,
+          };
+        });
+      },
       goNext: () => {
         set((state) => {
           const currentIndex = STEPS.indexOf(state.currentStep);
@@ -52,30 +76,16 @@ const useRegisterStore = create<RegisterState>()(
           }
         });
       },
-      setPhoneNumber: (phoneNumber) => {
-        set((state) => {
-          state.userInfo.phoneNumber = phoneNumber;
-        });
-      },
-      setName: (name) => {
-        set((state) => {
-          state.userInfo.name = name;
-        });
-      },
-      setSchoolInfo: (schoolName, grade, className) => {
-        set((state) => {
-          state.userInfo.schoolName = schoolName;
-          state.userInfo.grade = grade;
-          state.userInfo.class = className;
-        });
-      },
       reset: () => {
         set((state) => {
           state.currentStep = 'name';
           state.userInfo = {
             ...state.userInfo,
             name: '',
-            schoolName: '',
+            school: {
+              id: undefined,
+              name: '',
+            },
             grade: '',
             class: '',
           };
