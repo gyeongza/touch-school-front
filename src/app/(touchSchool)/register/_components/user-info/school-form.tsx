@@ -47,7 +47,7 @@ export default function SchoolForm() {
   };
 
   const handleSchoolClick = (school: School) => {
-    if (school.name === userInfo.school.name) {
+    if (school.id === userInfo.school.id) {
       setSchoolInfo({ school: { id: undefined, name: '' }, grade: '', class: '' });
     } else {
       setSchoolInfo({ school: { id: school.id, name: school.name }, grade: '', class: '' });
@@ -86,7 +86,7 @@ export default function SchoolForm() {
             schoolList.map((school) => (
               <div
                 key={school.id}
-                className={`rounded-lg p-2 ${school.name === userInfo.school.name ? 'bg-gray-100' : ''}`}
+                className={`rounded-lg p-2 ${school.id === userInfo.school.id ? 'bg-gray-100' : ''}`}
                 onClick={() => handleSchoolClick(school)}
               >
                 <div className="flex items-center justify-between">
@@ -96,7 +96,7 @@ export default function SchoolForm() {
                       {school.address}
                     </Text>
                   </div>
-                  {school.name === userInfo.school.name && <LuCircleCheck className="size-4" />}
+                  {school.id === userInfo.school.id && <LuCircleCheck className="size-4" />}
                 </div>
               </div>
             ))
