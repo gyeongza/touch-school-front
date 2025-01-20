@@ -1,8 +1,8 @@
 import getUser from '@/app/_utils/get-user';
 import { redirect } from 'next/navigation';
 
-export default function Page() {
-  const user = getUser();
+export default async function Page() {
+  const user = await getUser();
 
   if (!user) {
     redirect('/login');
