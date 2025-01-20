@@ -5,8 +5,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useState } from 'react';
 import { RegisterApi } from '../../_api';
 import { LuArrowLeft } from 'react-icons/lu';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function ClassForm() {
+  const router = useRouter();
+
   const [message, setMessage] = useState('');
 
   const { userInfo } = useRegisterState();
@@ -24,26 +29,31 @@ export default function ClassForm() {
     setSchoolInfo({ class: value });
   };
 
+  const { mutate: confirmRegister } = useMutation({
+    mutationFn: () =>
+      RegisterApi.postRegister({
+        phoneNumber: userInfo.phoneNumber,
+        name: userInfo.name,
+        schoolId: userInfo.school.id!,
+        grade: userInfo.grade,
+        class: userInfo.class,
+      }),
+    onSuccess: () => {
+      router.push('/register/completed');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
   const handleComplete = async () => {
     if (!userInfo.school.id || !userInfo.grade || !userInfo.class) {
       setMessage('학년 학반을 선택해주세요.');
       return;
     }
 
-    try {
-      await RegisterApi.postRegister({
-        phoneNumber: userInfo.phoneNumber,
-        name: userInfo.name,
-        schoolId: userInfo.school.id,
-        grade: userInfo.grade,
-        class: userInfo.class,
-      });
-    } catch (error) {
-      console.error(error);
-    }
+    confirmRegister();
   };
-
-  console.log(userInfo);
 
   return (
     <>
