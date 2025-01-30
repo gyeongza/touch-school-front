@@ -5,7 +5,7 @@ export default async function Page() {
   const user = await getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect(`/login/phone?needLogin=1`);
   }
 
   return <div>Touch School Home</div>;

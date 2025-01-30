@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import ReactQueryProvider from '@/shared/components/ReactQueryProvider';
-import { Toaster } from '@/shared/ui/toaster';
+import { Toaster } from '@/shared/ui/sonner';
 
 const pretendard = localFont({
   preload: true,
@@ -65,8 +65,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${pretendard.className} bg-white`}>
+        <Toaster richColors />
         <ReactQueryProvider>{children}</ReactQueryProvider>
-        <Toaster />
       </body>
     </html>
   );
