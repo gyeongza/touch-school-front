@@ -4,7 +4,7 @@ import { HTMLProps, ReactNode } from 'react';
 const typographyMap = {
   h1: {
     tagName: 'h1',
-    className: 'scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl',
+    className: 'scroll-m-20 text-4xl font-extrabold tracking-tight',
   },
   h2: {
     tagName: 'h2',
