@@ -66,7 +66,7 @@ export default function CodeInputForm({ phoneNumber }: CodeInputFormProps) {
         router.push('/');
       } else {
         toast.success('등록되지 않은 사용자에요. 회원가입을 진행해주세요.');
-        router.push('/register/user-info');
+        router.push(`/register/user-info?phoneNumber=${phoneNumber}`);
       }
     },
     onError: () => {

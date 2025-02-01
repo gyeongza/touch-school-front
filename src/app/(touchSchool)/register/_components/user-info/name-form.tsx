@@ -3,18 +3,25 @@ import { useRegisterActions, useRegisterState } from '../../_store';
 import { Input } from '@/shared/components/common/Input';
 import { Button } from '@/shared/ui/button';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function NameForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [message, setMessage] = useState('');
 
   const { userInfo } = useRegisterState();
-  const { setName, goNext } = useRegisterActions();
+  const { setPhoneNumber, setName, goNext } = useRegisterActions();
 
   useEffect(() => {
-    if (!userInfo.phoneNumber) {
+    const phoneNumber = searchParams.get('phoneNumber');
+
+    if (phoneNumber) {
+      setPhoneNumber(phoneNumber);
+    }
+
+    if (!userInfo.phoneNumber && !phoneNumber) {
       router.push('/register/verify');
     }
   }, []);
