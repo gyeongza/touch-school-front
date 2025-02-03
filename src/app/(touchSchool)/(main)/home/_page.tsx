@@ -14,6 +14,10 @@ import { treeFetchTags } from '@/app/_utils/fetch-tags';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { revalidateTreeInfo } from '@/app/_actions/revalidate';
+import { CustomErrorResponse } from '@/app/_apis/type';
+import { FetchError } from '@/app/_lib/extend-fetch';
+import { useEffect, useState } from 'react';
+import { Progress } from '@/shared/ui/progress';
 
 interface MainPageProps {
   user: User;
@@ -22,16 +26,22 @@ interface MainPageProps {
 
 export default function MainPage({ user, treeInfo }: MainPageProps) {
   const router = useRouter();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setProgress(treeInfo.experience / treeInfo.level), 500);
+    return () => clearTimeout(timer);
+  }, [treeInfo.experience, treeInfo.level]);
 
   const { mutate: waterTree } = useMutation({
     mutationFn: () => HomeApi.waterTree(),
     onSuccess: () => {
-      toast.success('나무에 물을 주었습니다.');
+      toast.success('나무에 물을 주었어요!');
       revalidateTreeInfo(user.id);
       router.refresh();
     },
-    onError: () => {
-      toast.error('나무에 물을 주는데 실패했습니다.');
+    onError: (error: FetchError<CustomErrorResponse>) => {
+      toast.error(error.response.body.message);
     },
   });
 
@@ -39,10 +49,8 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     waterTree();
   };
 
-  console.log(treeInfo);
-
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex grow flex-col justify-between gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-2 truncate pb-2 pt-4">
           <Text typography="h4">운동장</Text>
@@ -59,7 +67,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
       </div>
 
       <div className="flex justify-center">
-        <Image src="/trees/tree-level-1.png" alt="tree-level-1" width={300} height={300} />
+        <Image src="/trees/tree-level-1.png" alt="tree-level-1" width={250} height={250} />
       </div>
 
       <div className="flex flex-col items-center gap-4">
@@ -67,11 +75,15 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
           {user.school.name}의 나무 (Lv.{treeInfo.level})
         </Text>
         <Text>
-          경험치: {treeInfo.experience} / {treeInfo.level * 100}
+          경험치: {treeInfo.experience} / {treeInfo.level * 100} ({progress.toFixed(2)}%)
         </Text>
+        <Progress value={progress} />
         <Text typography="xsmall">마지막 물주기: {formatDateToKorean(treeInfo.lastWateredAt)}</Text>
-        <Button onClick={handleWaterTree}>물주기</Button>
+        <Text typography="xsmall">보유 물주기 횟수: {user.waterCount}회</Text>
       </div>
+      <Button onClick={handleWaterTree} disabled={user.waterCount <= 0} className="w-full">
+        물주기
+      </Button>
     </div>
   );
 }

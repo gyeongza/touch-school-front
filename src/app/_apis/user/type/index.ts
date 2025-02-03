@@ -6,6 +6,7 @@ export interface User {
   class: number;
   schoolId: number;
   createdAt: Date;
+  waterCount: number;
   school: {
     id: number;
     name: string;

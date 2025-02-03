@@ -5,3 +5,7 @@ export interface AuthData {
   accessTokenExpiryTime: string;
   userData?: User;
 }
+
+export interface CustomErrorResponse {
+  message: string;
+}
