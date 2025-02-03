@@ -74,15 +74,15 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
         <Text typography="h4">
           {user.school.name}의 나무 (Lv.{treeInfo.level})
         </Text>
-        <Text>
-          경험치: {treeInfo.experience} / {treeInfo.level * 100} ({progress.toFixed(2)}%)
-        </Text>
+        <Text>경험치: {progress.toFixed(2)}%</Text>
         <Progress value={progress} />
         <Text typography="xsmall">마지막 물주기: {formatDateToKorean(treeInfo.lastWateredAt)}</Text>
-        <Text typography="xsmall">보유 물주기 횟수: {user.waterCount}회</Text>
       </div>
       <Button onClick={handleWaterTree} disabled={user.waterCount <= 0} className="w-full">
-        물주기
+        <Text className="absolute">물주기</Text>
+        <Text typography="xsmall" className="ml-auto">
+          {user.waterCount}회 남음
+        </Text>
       </Button>
     </div>
   );
