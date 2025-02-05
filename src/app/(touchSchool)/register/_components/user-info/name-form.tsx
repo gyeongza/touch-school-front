@@ -2,7 +2,7 @@ import { Text } from '@/shared/components/common/Text';
 import { useRegisterActions, useRegisterState } from '../../_store';
 import { Input } from '@/shared/components/common/Input';
 import { Button } from '@/shared/ui/button';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function NameForm() {
@@ -39,7 +39,7 @@ export default function NameForm() {
   };
 
   return (
-    <>
+    <Suspense>
       <div className="relative flex h-full grow flex-col gap-6">
         <div className="flex flex-col gap-6 pb-5 pt-10">
           <Text typography="h3">이름을 입력해주세요.</Text>
@@ -56,6 +56,6 @@ export default function NameForm() {
       <Button className="sticky bottom-0" disabled={!userInfo.name} onClick={handleNext}>
         다음
       </Button>
-    </>
+    </Suspense>
   );
 }

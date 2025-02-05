@@ -1,11 +1,12 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
 import CodeInputForm from '../_components/code-input-form';
+import { Suspense } from 'react';
 
-export default function CodeInputPage() {
-  const searchParams = useSearchParams();
-  const phoneNumber = searchParams.get('phoneNumber') ?? '';
-
-  return <CodeInputForm phoneNumber={phoneNumber} />;
+export default function CodeInputPage({ searchParams }: { searchParams: { phoneNumber?: string } }) {
+  return (
+    <Suspense>
+      <CodeInputForm phoneNumber={searchParams?.phoneNumber ?? ''} />
+    </Suspense>
+  );
 }

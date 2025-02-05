@@ -2,18 +2,18 @@
 
 import { toast } from 'sonner';
 import PhoneInputForm from '../_components/phone-input-form';
-import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 
-export default function PhoneInputPage() {
-  const searchParams = useSearchParams();
-  const needLogin = searchParams.get('needLogin');
-
+export default function PhoneInputPage({ searchParams }: { searchParams?: { needLogin: string } }) {
   useEffect(() => {
-    if (needLogin === '1') {
+    if (searchParams?.needLogin === '1') {
       toast.error('로그인이 필요한 서비스입니다.');
     }
-  }, [needLogin]);
+  }, [searchParams?.needLogin]);
 
-  return <PhoneInputForm />;
+  return (
+    <Suspense>
+      <PhoneInputForm />
+    </Suspense>
+  );
 }
