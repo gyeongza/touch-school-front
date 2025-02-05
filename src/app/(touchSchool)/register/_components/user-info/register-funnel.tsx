@@ -5,6 +5,7 @@ import SchoolForm from './school-form';
 import NameForm from './name-form';
 import ClassForm from './class-form';
 import { useRegisterState } from '../../_store';
+import { Suspense } from 'react';
 
 export type RegisterFunnelStep = 'name' | 'school' | 'class';
 
@@ -15,7 +16,9 @@ export default function RegisterFunnel() {
   return (
     <Funnel currentStep={currentStep}>
       <Step name="name">
-        <NameForm />
+        <Suspense fallback={<div>Loading...</div>}>
+          <NameForm />
+        </Suspense>
       </Step>
       <Step name="school">
         <SchoolForm />
