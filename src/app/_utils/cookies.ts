@@ -14,5 +14,6 @@ export const setAccessTokenCookie = (
     expires: new Date(accessTokenExpiryTime),
     httpOnly: true,
     secure: true,
+    sameSite: 'none',
   });
 };
