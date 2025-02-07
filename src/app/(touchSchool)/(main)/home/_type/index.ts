@@ -7,6 +7,9 @@ export interface TreeInfo {
 
 export type GetTreeInfoResponse = TreeInfo;
 
+export interface WaterTreeRequest {
+  count: number;
+}
 export interface WaterTreeResponse {
   success: boolean;
   message: string;

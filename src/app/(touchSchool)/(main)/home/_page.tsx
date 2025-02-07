@@ -16,17 +16,21 @@ import { FetchError } from '@/app/_lib/extend-fetch';
 import { useEffect, useState } from 'react';
 import { Progress } from '@/shared/ui/progress';
 import { useRouter } from 'next/navigation';
+import { useDebounce } from '@/shared/hooks/useDebounce';
 
 interface MainPageProps {
   user: User;
   treeInfo: TreeInfo;
 }
 
+const WATER_TREE_COUNT = 15;
+
 export default function MainPage({ user, treeInfo }: MainPageProps) {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
   const [localTreeInfo, setLocalTreeInfo] = useState(treeInfo);
   const [localWaterCount, setLocalWaterCount] = useState(user.waterCount);
+  const [wateringCount, setWateringCount] = useState(0);
 
   useEffect(() => {
     setLocalTreeInfo(treeInfo);
@@ -42,12 +46,12 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
   }, [localTreeInfo.experience, localTreeInfo.level]);
 
   const { mutate: waterTree } = useMutation({
-    mutationFn: () => HomeApi.waterTree(),
-    onMutate: () => {
-      setLocalWaterCount((prev) => Math.max(0, prev - 1));
+    mutationFn: (count: number) => HomeApi.waterTree({ count }),
+    onMutate: (count: number) => {
+      setLocalWaterCount((prev) => Math.max(0, prev - count));
       setLocalTreeInfo((prev) => ({
         ...prev,
-        experience: prev.experience + 1,
+        experience: prev.experience + WATER_TREE_COUNT * count,
         lastWateredAt: new Date().toISOString(),
       }));
     },
@@ -59,16 +63,27 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     onError: (error: FetchError<CustomErrorResponse>) => {
       setLocalWaterCount(user.waterCount);
       setLocalTreeInfo(treeInfo);
+      setWateringCount(0);
       toast.error(error.response.body.message);
     },
   });
 
-  const handleWaterTree = () => {
-    waterTree();
+  const debouncedWaterTree = useDebounce((count: number) => {
+    if (count > 0) {
+      waterTree(count);
+      setWateringCount(0);
+    }
+  }, 800);
+
+  const handleWaterClick = () => {
+    if (localWaterCount <= 0 || wateringCount + 1 > localWaterCount) return;
+
+    setWateringCount((prev) => prev + 1);
+    debouncedWaterTree(wateringCount + 1);
   };
 
   return (
-    <div className="flex grow flex-col justify-between gap-6">
+    <div className="relative flex grow flex-col justify-between gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-2 truncate pb-2 pt-4">
           <Text typography="h4">운동장</Text>
@@ -96,12 +111,19 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
         <Progress value={progress} />
         <Text typography="xsmall">마지막 물주기: {formatDateToKorean(localTreeInfo.lastWateredAt)}</Text>
       </div>
-      <Button onClick={handleWaterTree} disabled={localWaterCount <= 0} className="w-full">
+      <Button onClick={handleWaterClick} disabled={localWaterCount <= 0} className="w-full">
         <Text className="absolute">물주기</Text>
         <Text typography="xsmall" className="ml-auto">
           {localWaterCount}회 남음
         </Text>
       </Button>
+      {wateringCount > 0 && (
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md bg-black/50 px-4 py-2">
+          <Text typography="h3" className="text-white">
+            {wateringCount}
+          </Text>
+        </div>
+      )}
     </div>
   );
 }
