@@ -27,20 +27,33 @@ interface MainPageProps {
 export default function MainPage({ user, treeInfo }: MainPageProps) {
   const router = useRouter();
   const [progress, setProgress] = useState(0);
+  const [localTreeInfo, setLocalTreeInfo] = useState(treeInfo);
+  const [localWaterCount, setLocalWaterCount] = useState(user.waterCount);
 
   useEffect(() => {
-    const timer = setTimeout(() => setProgress(treeInfo.experience / treeInfo.level), 500);
+    const timer = setTimeout(() => setProgress(localTreeInfo.experience / localTreeInfo.level), 500);
     return () => clearTimeout(timer);
-  }, [treeInfo.experience, treeInfo.level]);
+  }, [localTreeInfo.experience, localTreeInfo.level]);
 
   const { mutate: waterTree } = useMutation({
     mutationFn: () => HomeApi.waterTree(),
+    onMutate: () => {
+      // 옵티미스틱 업데이트
+      setLocalWaterCount((prev) => Math.max(0, prev - 1));
+      setLocalTreeInfo((prev) => ({
+        ...prev,
+        experience: prev.experience + 1,
+        lastWateredAt: new Date().toISOString(),
+      }));
+    },
     onSuccess: () => {
       toast.success('나무에 물을 주었어요!');
       revalidateTreeInfo(user.id);
-      router.refresh();
     },
     onError: (error: FetchError<CustomErrorResponse>) => {
+      // 에러 시 원래 상태로 복구
+      setLocalWaterCount(user.waterCount);
+      setLocalTreeInfo(treeInfo);
       toast.error(error.response.body.message);
     },
   });
@@ -72,16 +85,16 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
 
       <div className="flex flex-col items-center gap-4">
         <Text typography="h4">
-          {user.school.name}의 나무 (Lv.{treeInfo.level})
+          {user.school.name}의 나무 (Lv.{localTreeInfo.level})
         </Text>
         <Text>경험치: {progress.toFixed(2)}%</Text>
         <Progress value={progress} />
-        <Text typography="xsmall">마지막 물주기: {formatDateToKorean(treeInfo.lastWateredAt)}</Text>
+        <Text typography="xsmall">마지막 물주기: {formatDateToKorean(localTreeInfo.lastWateredAt)}</Text>
       </div>
-      <Button onClick={handleWaterTree} disabled={user.waterCount <= 0} className="w-full">
+      <Button onClick={handleWaterTree} disabled={localWaterCount <= 0} className="w-full">
         <Text className="absolute">물주기</Text>
         <Text typography="xsmall" className="ml-auto">
-          {user.waterCount}회 남음
+          {localWaterCount}회 남음
         </Text>
       </Button>
     </div>
