@@ -9,15 +9,13 @@ import { formatDateToKorean } from '@/app/_utils/date';
 import { Button } from '@/shared/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { HomeApi } from './_api';
-import { revalidatePath, revalidateTag } from 'next/cache';
-import { treeFetchTags } from '@/app/_utils/fetch-tags';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 import { revalidateTreeInfo } from '@/app/_actions/revalidate';
 import { CustomErrorResponse } from '@/app/_apis/type';
 import { FetchError } from '@/app/_lib/extend-fetch';
 import { useEffect, useState } from 'react';
 import { Progress } from '@/shared/ui/progress';
+import { useRouter } from 'next/navigation';
 
 interface MainPageProps {
   user: User;
@@ -31,6 +29,14 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
   const [localWaterCount, setLocalWaterCount] = useState(user.waterCount);
 
   useEffect(() => {
+    setLocalTreeInfo(treeInfo);
+  }, [treeInfo]);
+
+  useEffect(() => {
+    setLocalWaterCount(user.waterCount);
+  }, [user.waterCount]);
+
+  useEffect(() => {
     const timer = setTimeout(() => setProgress(localTreeInfo.experience / localTreeInfo.level), 500);
     return () => clearTimeout(timer);
   }, [localTreeInfo.experience, localTreeInfo.level]);
@@ -38,7 +44,6 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
   const { mutate: waterTree } = useMutation({
     mutationFn: () => HomeApi.waterTree(),
     onMutate: () => {
-      // 옵티미스틱 업데이트
       setLocalWaterCount((prev) => Math.max(0, prev - 1));
       setLocalTreeInfo((prev) => ({
         ...prev,
@@ -49,9 +54,9 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     onSuccess: () => {
       toast.success('나무에 물을 주었어요!');
       revalidateTreeInfo(user.id);
+      router.refresh();
     },
     onError: (error: FetchError<CustomErrorResponse>) => {
-      // 에러 시 원래 상태로 복구
       setLocalWaterCount(user.waterCount);
       setLocalTreeInfo(treeInfo);
       toast.error(error.response.body.message);
