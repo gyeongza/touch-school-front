@@ -1,5 +1,5 @@
 import { api } from '@/app/_apis';
-import { GetTreeInfoResponse, WaterTreeResponse } from '../_type';
+import { GetTreeInfoResponse, WaterTreeRequest, WaterTreeResponse } from '../_type';
 import { treeFetchTags } from '@/app/_utils/fetch-tags';
 
 export const HomeApi = {
@@ -10,8 +10,8 @@ export const HomeApi = {
     return res.body;
   },
 
-  waterTree: async (): Promise<WaterTreeResponse> => {
-    const res = await api.post<WaterTreeResponse>('/api/v1/tree/water');
+  waterTree: async ({ count }: WaterTreeRequest): Promise<WaterTreeResponse> => {
+    const res = await api.post<WaterTreeResponse>('/api/v1/tree/water', { count });
     return res.body;
   },
 };

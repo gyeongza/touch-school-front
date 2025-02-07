@@ -12,6 +12,19 @@ export interface User {
     name: string;
     address?: string;
   };
+  attendance: {
+    id: number;
+    createdAt: Date;
+  }[];
 }
 
 export interface GetUserResponse extends User {}
+
+export interface GetAttendanceResponse {
+  attendances: {
+    id: number;
+    userId: number;
+    createdAt: Date;
+  }[];
+  canAttendance: boolean;
+}
