@@ -1,6 +1,7 @@
 import { userFetchTags } from '@/app/_utils/fetch-tags';
 import { api } from '..';
 import type { GetAttendanceResponse, GetUserResponse } from './type';
+import { deleteAccessTokenFromCookies } from '@/app/_actions/cookies';
 
 const UserApi = {
   getUser: async (): Promise<GetUserResponse> => {
@@ -19,6 +20,11 @@ const UserApi = {
   getAttendance: async (): Promise<GetAttendanceResponse> => {
     const res = await api.get<GetAttendanceResponse>('/api/v1/attendance');
     return res.body;
+  },
+
+  logout: async (): Promise<void> => {
+    await api.post('/api/v1/login/logout');
+    await deleteAccessTokenFromCookies();
   },
 };
 

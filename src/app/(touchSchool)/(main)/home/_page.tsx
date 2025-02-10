@@ -19,6 +19,9 @@ import { useRouter } from 'next/navigation';
 import { useDebounce } from '@/shared/hooks/useDebounce';
 import Lottie from 'react-lottie-player';
 import completed from '@/public/completed.json';
+import UserApi from '@/app/_apis/user';
+import { LuLogOut } from 'react-icons/lu';
+import LogoutDialog from './_components/logout-dialog';
 
 interface MainPageProps {
   user: User;
@@ -87,16 +90,35 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     debouncedWaterTree(wateringCount + 1);
   };
 
+  const { mutate: requestSignOut, isPending: isLogoutPending } = useMutation({
+    mutationFn: UserApi.logout,
+    onSuccess: () => {
+      window.location.reload();
+    },
+    onError: () => {
+      toast.error('로그아웃에 실패했어요.');
+    },
+  });
+
+  const handleLogout = async () => {
+    if (!isLogoutPending) {
+      requestSignOut();
+    }
+  };
+
   return (
     <div className="relative flex grow flex-col justify-between gap-6">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-2 truncate pb-2 pt-4">
           <Text typography="h4">운동장</Text>
-          <div className="flex gap-1 truncate">
+          <div className="flex items-center gap-1 truncate">
             <Text>{user.school.name}</Text>
             <Text>{user.grade}학년</Text>
             <Text>{user.class}반</Text>
             <Text>{user.name}</Text>
+            <LogoutDialog>
+              <LuLogOut className="ml-2 size-4" />
+            </LogoutDialog>
           </div>
         </div>
         <Navbar user={user} />
