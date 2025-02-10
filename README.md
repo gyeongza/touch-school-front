@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 터치스쿨 (Touch School)
 
-## Getting Started
+학교별 나무 키우기 게임을 통한 새로운 형태의 학교 커뮤니티 서비스
 
-First, run the development server:
+## 프로젝트 소개
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+터치스쿨은 게이미피케이션을 접목한 학교 커뮤니티 플랫폼입니다. 각 학교마다 하나의 나무가 있으며, 학생들이 함께 나무에 물을 주고 키우면서 자연스러운 커뮤니티를 형성할 수 있습니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 주요 기능
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🌱 나무 키우기 시스템
+- 학교별 단일 나무 관리
+- 경험치 시스템을 통한 나무 성장
+- 물주기 기능을 통한 상호작용
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 👤 사용자 관리
+- 휴대폰 본인인증 기반 회원가입/로그인
+- 학교 검색 및 인증
+- 일일 물주기 횟수 제한 및 관리
 
-## Learn More
+### ✅ 참여 보상 시스템
+- 일일 출석 체크
+- 미니게임을 통한 추가 물주기 기회 획득
 
-To learn more about Next.js, take a look at the following resources:
+## 기술 스택
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Frontend
+- Next.js
+- TypeScript
+- TailwindCSS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Backend
+- Express
+- Prisma
+- PostgreSQL
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Infrastructure
+- Docker
+- Nginx
+- AWS
