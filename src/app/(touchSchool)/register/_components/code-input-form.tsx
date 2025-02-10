@@ -57,7 +57,7 @@ export default function CodeInputForm() {
     },
   });
 
-  const { mutate: verifyCode } = useMutation({
+  const { mutate: verifyCode, isPending: isVerifyCodePending } = useMutation({
     mutationFn: () => RegisterApi.verifyCode(userInfo.phoneNumber, code),
     onSuccess: async (res) => {
       if (res.isExistingUser) {
@@ -93,7 +93,7 @@ export default function CodeInputForm() {
           </Button>
         </div>
       </div>
-      <Button className="sticky bottom-0" onClick={() => verifyCode()} disabled={isExpired}>
+      <Button className="sticky bottom-0" onClick={() => verifyCode()} disabled={isExpired || isVerifyCodePending}>
         인증하기
       </Button>
     </>
