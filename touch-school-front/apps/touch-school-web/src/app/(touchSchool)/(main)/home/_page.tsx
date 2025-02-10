@@ -19,7 +19,6 @@ import { useRouter } from 'next/navigation';
 import { useDebounce } from '@/_hooks/useDebounce';
 import Lottie from 'react-lottie-player';
 import completed from '@/public/completed.json';
-import UserApi from '@/_apis/user';
 import { LuLogOut } from 'react-icons/lu';
 import LogoutDialog from './_components/logout-dialog';
 
@@ -88,22 +87,6 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
 
     setWateringCount((prev) => prev + 1);
     debouncedWaterTree(wateringCount + 1);
-  };
-
-  const { mutate: requestSignOut, isPending: isLogoutPending } = useMutation({
-    mutationFn: UserApi.logout,
-    onSuccess: () => {
-      window.location.reload();
-    },
-    onError: () => {
-      toast.error('로그아웃에 실패했어요.');
-    },
-  });
-
-  const handleLogout = async () => {
-    if (!isLogoutPending) {
-      requestSignOut();
-    }
   };
 
   return (

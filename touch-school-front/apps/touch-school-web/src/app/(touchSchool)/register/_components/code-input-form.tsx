@@ -19,12 +19,11 @@ export default function CodeInputForm() {
 
   const { userInfo } = useRegisterState();
 
-  if (!userInfo.phoneNumber) {
-    useEffect(() => {
+  useEffect(() => {
+    if (!userInfo.phoneNumber) {
       router.push('/register/phone');
-    }, []);
-    return null;
-  }
+    }
+  }, [userInfo.phoneNumber, router]);
 
   useEffect(() => {
     if (timeLeft > 0) {
