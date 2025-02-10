@@ -5,6 +5,8 @@ import { Button } from '@/shared/ui/button';
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+const MAX_NAME_LENGTH = 8;
+
 export default function NameForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -27,12 +29,20 @@ export default function NameForm() {
   }, []);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+    const value = e.target.value;
+    if (value.length <= MAX_NAME_LENGTH) {
+      setName(value);
+      setMessage('');
+    }
   };
 
   const handleNext = () => {
     if (!userInfo.name) {
       setMessage('이름을 입력해주세요.');
+      return;
+    }
+    if (userInfo.name.length > MAX_NAME_LENGTH) {
+      setMessage(`이름은 ${MAX_NAME_LENGTH}자 이하로 입력해주세요.`);
       return;
     }
     goNext();
@@ -46,7 +56,8 @@ export default function NameForm() {
           <Input
             className="rounded-none border-x-0 border-y-0 border-b-2 border-t-0 border-black p-0 text-xl"
             type="text"
-            placeholder="이름"
+            placeholder={`이름 (최대 ${MAX_NAME_LENGTH}자)`}
+            maxLength={MAX_NAME_LENGTH}
             value={userInfo.name}
             onChange={handleNameChange}
           />
