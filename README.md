@@ -11,32 +11,38 @@
 ## 주요 기능
 
 ### 🌱 나무 키우기 시스템
+
 - 학교별 단일 나무 관리
 - 경험치 시스템을 통한 나무 성장
 - 물주기 기능을 통한 상호작용
 
 ### 👤 사용자 관리
+
 - 휴대폰 본인인증 기반 회원가입/로그인
 - 학교 검색 및 인증
 - 일일 물주기 횟수 제한 및 관리
 
 ### ✅ 참여 보상 시스템
+
 - 일일 출석 체크
 - 미니게임을 통한 추가 물주기 기회 획득
 
 ## 기술 스택
 
 ### Frontend
+
 - Next.js
 - TypeScript
 - TailwindCSS
 
 ### Backend
+
 - Express
 - Prisma
 - PostgreSQL
 
 ### Infrastructure
+
 - Docker
 - Nginx
 - AWS
