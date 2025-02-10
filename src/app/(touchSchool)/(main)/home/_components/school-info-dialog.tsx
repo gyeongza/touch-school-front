@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { HomeApi } from '../_api';
 import { User } from '@/app/_apis/user/type';
 import { Text } from '@/shared/components/common/Text';
-import { formatDateToKorean } from '@/app/_utils/date';
+import { useState } from 'react';
 
 interface SchoolInfoDialogProps {
   user: User;
@@ -11,15 +11,18 @@ interface SchoolInfoDialogProps {
 }
 
 export default function SchoolInfoDialog({ user, children }: SchoolInfoDialogProps) {
+  const [open, setOpen] = useState(false);
+
   const { data: schoolInfo } = useQuery({
     queryKey: ['schoolInfo', user.school.id],
     queryFn: () => HomeApi.getSchoolInfo(user.school.id),
+    enabled: open,
   });
 
-  if (!schoolInfo) return null;
+  if (!schoolInfo && open) return null;
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -36,14 +39,14 @@ export default function SchoolInfoDialog({ user, children }: SchoolInfoDialogPro
 
               {/* 현재 사용자 */}
               <div className="flex items-center justify-between gap-2">
-                <Text className="flex-1 text-center">{schoolInfo.currentUser.name}</Text>
-                <Text className="flex-1 text-center">{schoolInfo.currentUser.grade}학년</Text>
-                <Text className="flex-1 text-center">{schoolInfo.currentUser.class}반</Text>
-                <Text className="flex-1 text-center">{schoolInfo.currentUser.wateringCount}번</Text>
+                <Text className="flex-1 text-center">{schoolInfo?.currentUser.name}</Text>
+                <Text className="flex-1 text-center">{schoolInfo?.currentUser.grade}학년</Text>
+                <Text className="flex-1 text-center">{schoolInfo?.currentUser.class}반</Text>
+                <Text className="flex-1 text-center">{schoolInfo?.currentUser.wateringCount}번</Text>
               </div>
 
               {/* 다른 사용자들 */}
-              {schoolInfo.users.map((user) => (
+              {schoolInfo?.users.map((user) => (
                 <div key={user.name} className="flex items-center justify-between gap-2">
                   <Text className="flex-1 text-center">{user.name}</Text>
                   <Text className="flex-1 text-center">{user.grade}학년</Text>
