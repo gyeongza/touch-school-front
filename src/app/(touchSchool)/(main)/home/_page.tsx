@@ -17,6 +17,8 @@ import { useEffect, useState } from 'react';
 import { Progress } from '@/shared/ui/progress';
 import { useRouter } from 'next/navigation';
 import { useDebounce } from '@/shared/hooks/useDebounce';
+import Lottie from 'react-lottie-player';
+import completed from '@/public/completed.json';
 
 interface MainPageProps {
   user: User;
@@ -31,6 +33,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
   const [localTreeInfo, setLocalTreeInfo] = useState(treeInfo);
   const [localWaterCount, setLocalWaterCount] = useState(user.waterCount);
   const [wateringCount, setWateringCount] = useState(0);
+  const [showSuccessLottie, setShowSuccessLottie] = useState(false);
 
   useEffect(() => {
     setLocalTreeInfo(treeInfo);
@@ -57,6 +60,8 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     },
     onSuccess: () => {
       toast.success('나무에 물을 주었어요!');
+      setShowSuccessLottie(true);
+      setTimeout(() => setShowSuccessLottie(false), 2000);
       revalidateTreeInfo(user.id);
       router.refresh();
     },
@@ -121,6 +126,14 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
             {wateringCount}
           </Text>
         </div>
+      )}
+      {showSuccessLottie && (
+        <Lottie
+          loop
+          animationData={completed}
+          play
+          className="absolute left-1/2 top-1/2 size-96 -translate-x-1/2 -translate-y-1/2"
+        />
       )}
     </div>
   );
