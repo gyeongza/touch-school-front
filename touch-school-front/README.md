@@ -1,84 +1,48 @@
-# Turborepo starter
+# 터치스쿨 (Touch School)
 
-This Turborepo starter is maintained by the Turborepo core team.
+학교별 나무 키우기 게임을 통한 새로운 형태의 학교 커뮤니티 서비스
 
-## Using this example
+[바로가기](https://touch-school.site)
 
-Run the following command:
+## 프로젝트 소개
 
-```sh
-npx create-turbo@latest
-```
+터치스쿨은 게이미피케이션을 접목한 학교 커뮤니티 플랫폼입니다. 각 학교마다 하나의 나무가 있으며, 학생들이 함께 나무에 물을 주고 키우면서 자연스러운 커뮤니티를 형성할 수 있습니다.
 
-## What's inside?
+## 주요 기능
 
-This Turborepo includes the following packages/apps:
+### 🌱 나무 키우기 시스템
 
-### Apps and Packages
+- 학교별 단일 나무 관리
+- 경험치 시스템을 통한 나무 성장
+- 물주기 기능을 통한 상호작용
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### 👤 사용자 관리
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+- 휴대폰 본인인증 기반 회원가입/로그인
+- 학교 검색 및 인증
+- 일일 물주기 횟수 제한 및 관리
 
-### Utilities
+### ✅ 참여 보상 시스템
 
-This Turborepo has some additional tools already setup for you:
+- 일일 출석 체크
+- 미니게임을 통한 추가 물주기 기회 획득
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## 기술 스택
 
-### Build
+### Frontend
 
-To build all apps and packages, run the following command:
+- Next.js
+- TypeScript
+- TailwindCSS
 
-```
-cd my-turborepo
-pnpm build
-```
+### Backend
 
-### Develop
+- Express
+- Prisma
+- PostgreSQL
 
-To develop all apps and packages, run the following command:
+### Infrastructure
 
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+- Docker
+- Nginx
+- AWS

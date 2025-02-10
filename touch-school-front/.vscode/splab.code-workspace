@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "TOUCH-SCHOOL",
+      "path": "../"
+    },
+    {
+      "name": "WEB",
+      "path": "../apps/touch-school-web"
+    },
+    {
+      "name": "UI",
+      "path": "../packages/ui"
+    },
+    {
+      "name": "CONFIG",
+      "path": "../packages"
+    }
+  ]
+}
