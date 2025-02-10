@@ -94,9 +94,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
             <Text>{user.name}</Text>
           </div>
         </div>
-        <div className="flex gap-4 overflow-x-auto">
-          <Navbar />
-        </div>
+        <Navbar user={user} />
       </div>
 
       <div className="flex justify-center">
