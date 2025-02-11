@@ -46,8 +46,8 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
   }, [user.waterCount]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setProgress(localTreeInfo.experience / localTreeInfo.level), 500);
-    return () => clearTimeout(timer);
+    const progress = Math.min(100, localTreeInfo.experience / localTreeInfo.level);
+    setProgress(progress);
   }, [localTreeInfo.experience, localTreeInfo.level]);
 
   const { mutate: waterTree } = useMutation({
