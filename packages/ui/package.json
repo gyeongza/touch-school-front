@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./styles/globals.css": "./styles/globals.css",
+    "./lib/utils": "./lib/utils.ts",
     "./dialog": "./src/dialog.tsx",
     "./progress": "./src/progress.tsx",
     "./select": "./src/select.tsx",
     "./sonner": "./src/sonner.tsx",
     "./button": "./src/button.tsx",
-    "./lib/utils": "./lib/utils.ts",
-    "./styles/globals.css": "./styles/globals.css"
+    "./scroll-area": "./src/scroll-area.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
@@ -38,6 +39,7 @@
     "typescript": "5.7.3"
   },
   "dependencies": {
+    "@radix-ui/react-scroll-area": "^1.2.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.469.0",
     "react": "^18",
