@@ -20,6 +20,18 @@ export interface User {
 
 export interface GetUserResponse extends User {}
 
+export interface GetUserInfoResponse {
+  school: {
+    id: number;
+    name: string;
+    totalUser: number;
+  };
+  tree: {
+    id: number;
+    level: number;
+  };
+}
+
 export interface GetAttendanceResponse {
   attendances: {
     id: number;

@@ -1,5 +1,11 @@
 import { api } from '@/_apis';
-import { GetSchoolInfoResponse, GetTreeInfoResponse, WaterTreeRequest, WaterTreeResponse } from '../_type';
+import {
+  GetSchoolInfoResponse,
+  GetSchoolRankInfoResponse,
+  GetTreeInfoResponse,
+  WaterTreeRequest,
+  WaterTreeResponse,
+} from '../_type';
 import { treeFetchTags } from '@/_utils/fetch-tags';
 
 export const HomeApi = {
@@ -17,6 +23,11 @@ export const HomeApi = {
 
   getSchoolInfo: async (schoolId: number): Promise<GetSchoolInfoResponse> => {
     const res = await api.get<GetSchoolInfoResponse>(`/api/v1/school/${schoolId}/info`);
+    return res.body;
+  },
+
+  getSchoolRankInfo: async (): Promise<GetSchoolRankInfoResponse> => {
+    const res = await api.get<GetSchoolRankInfoResponse>('/api/v1/rank');
     return res.body;
   },
 };

@@ -1,6 +1,6 @@
 import { userFetchTags } from '@/_utils/fetch-tags';
 import { api } from '..';
-import type { GetAttendanceResponse, GetUserResponse } from './type';
+import type { GetAttendanceResponse, GetUserInfoResponse, GetUserResponse } from './type';
 import { deleteAccessTokenFromCookies } from '@/_actions/cookies';
 
 const UserApi = {
@@ -10,6 +10,11 @@ const UserApi = {
         tags: [userFetchTags.user()],
       },
     });
+    return res.body;
+  },
+
+  getUserInfo: async (): Promise<GetUserInfoResponse> => {
+    const res = await api.get<GetUserInfoResponse>('/api/v1/user/my');
     return res.body;
   },
 

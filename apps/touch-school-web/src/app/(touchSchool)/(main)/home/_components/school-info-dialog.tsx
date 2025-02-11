@@ -20,8 +20,6 @@ export default function SchoolInfoDialog({ user, children }: SchoolInfoDialogPro
     enabled: open,
   });
 
-  if (!schoolInfo && open) return null;
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -49,7 +47,7 @@ export default function SchoolInfoDialog({ user, children }: SchoolInfoDialogPro
               {/* 다른 사용자들 */}
               <ScrollArea className="h-96">
                 {schoolInfo?.users.map((user) => (
-                  <div key={user.name} className="flex items-center justify-between gap-2">
+                  <div key={user.name} className="mb-2 flex items-center justify-between gap-2">
                     <Text className="flex-1 text-center">{user.name}</Text>
                     <Text className="flex-1 text-center">{user.grade}학년</Text>
                     <Text className="flex-1 text-center">{user.class}반</Text>

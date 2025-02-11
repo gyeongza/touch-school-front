@@ -4,7 +4,7 @@ import { User } from '@/_apis/user/type';
 import { AttendanceMenu } from './attendance-menu';
 import { NutrientMenu } from './nutrient-menu';
 import { SchoolInfoButton } from './school-info-menu';
-
+import { SchoolRankMenu } from './school-rank-menu';
 interface NavbarProps {
   user: User;
 }
@@ -15,6 +15,7 @@ export default function Navbar({ user }: NavbarProps) {
       <AttendanceMenu />
       <NutrientMenu />
       <SchoolInfoButton user={user} />
+      <SchoolRankMenu user={user} />
     </div>
   );
 }

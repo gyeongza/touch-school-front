@@ -35,3 +35,22 @@ export interface GetSchoolInfoResponse {
     joinedAt: string;
   }[];
 }
+
+export interface SchoolRankInfo {
+  school: {
+    id: number;
+    name: string;
+    totalUser: number;
+    rank: number;
+  };
+  tree: {
+    id: number;
+    level: number;
+  };
+}
+
+export interface GetSchoolRankInfoResponse {
+  schools: SchoolRankInfo[];
+  userSchoolRank: number;
+  userSchoolTotalCount: number;
+}
