@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@repo/ui/dialog';
 import { useQuery } from '@tanstack/react-query';
-import { HomeApi } from '../_api';
+import { HomeApi } from '../../_api';
 import { User } from '@/_apis/user/type';
 import { Text } from '@/_components/common/Text';
 import { useState } from 'react';

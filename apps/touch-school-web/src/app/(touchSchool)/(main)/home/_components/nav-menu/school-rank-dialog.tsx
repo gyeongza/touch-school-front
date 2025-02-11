@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@repo/ui/dialog';
 import { useQuery, useQueries } from '@tanstack/react-query';
-import { HomeApi } from '../_api';
+import { HomeApi } from '../../_api';
 import { User } from '@/_apis/user/type';
 import { Text } from '@/_components/common/Text';
 import { useState } from 'react';
@@ -39,7 +39,10 @@ export default function SchoolRankDialog({ user, children }: SchoolRankDialogPro
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="py-6">학교 랭킹</DialogTitle>
+          <DialogTitle className="pt-6">학교 랭킹</DialogTitle>
+          <Text typography="small" className="py-2 text-gray-500">
+            전국 학교 랭킹은 5위까지만 표시돼요.
+          </Text>
           <DialogDescription>
             <div className="flex w-full flex-col gap-4">
               {/* 테이블 헤더 */}
