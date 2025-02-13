@@ -8,6 +8,8 @@ import { RegisterApi } from '../_api';
 import { useRouter } from 'next/navigation';
 import { Text } from '@/_components/common/Text';
 import { Button } from '@repo/ui/button';
+import { Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function CodeInputForm() {
   const router = useRouter();
@@ -60,7 +62,8 @@ export default function CodeInputForm() {
     mutationFn: () => RegisterApi.verifyCode(userInfo.phoneNumber, code),
     onSuccess: async (res) => {
       if (res.isExistingUser) {
-        router.push('/');
+        toast.success('이미 등록된 유저에요. 메인 화면으로 이동합니다.');
+        router.push('/home');
       } else {
         router.push('/register/user-info');
       }
@@ -93,7 +96,7 @@ export default function CodeInputForm() {
         </div>
       </div>
       <Button className="sticky bottom-0" onClick={() => verifyCode()} disabled={isExpired || isVerifyCodePending}>
-        인증하기
+        {isVerifyCodePending ? <Loader2 className="size-4 animate-spin" /> : '인증하기'}
       </Button>
     </>
   );
