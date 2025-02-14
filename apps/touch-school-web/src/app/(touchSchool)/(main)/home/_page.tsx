@@ -89,6 +89,21 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
     debouncedWaterTree(wateringCount + 1);
   };
 
+  const treeImageAlias = () => {
+    switch (true) {
+      case localTreeInfo.level > 1 && localTreeInfo.level < 5:
+        return 'tree-level-1';
+      case localTreeInfo.level >= 5 && localTreeInfo.level < 10:
+        return 'tree-level-2';
+      case localTreeInfo.level >= 10 && localTreeInfo.level < 15:
+        return 'tree-level-3';
+      case localTreeInfo.level >= 15 && localTreeInfo.level < 20:
+        return 'tree-level-4';
+      default:
+        return 'tree-level-1';
+    }
+  };
+
   return (
     <div className="relative flex grow flex-col justify-between gap-6">
       <div className="flex flex-col gap-4">
@@ -108,7 +123,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
       </div>
 
       <div className="flex justify-center">
-        <Image src="/trees/tree-level-1.png" alt="tree-level-1" width={250} height={250} />
+        <Image src={`/trees/${treeImageAlias()}.png`} alt={treeImageAlias()} width={250} height={250} />
       </div>
 
       <div className="flex flex-col items-center gap-4">
