@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import { BackHandler } from 'react-native';
-import { useWebViewLoader } from '@/hooks/useWebViewLoader';
-import LoadingIndicator from '@/components/loading-indicator';
 
 export default function Index() {
   const uri = process.env.EXPO_PUBLIC_URL ?? '';
+  const localUrl = process.env.EXPO_PUBLIC_LOCAL_URL ?? '';
   const webviewRef = useRef<WebView>(null);
-
-  const { loading, handleLoadStart, handleLoadEnd } = useWebViewLoader();
 
   const onAndroidBackPress = useCallback(() => {
     if (webviewRef.current) {
@@ -27,13 +24,11 @@ export default function Index() {
 
   return (
     <>
-      {loading && <LoadingIndicator />}
       <WebView
         ref={webviewRef}
-        source={{ uri: uri }}
+        source={{ uri: process.env.NODE_ENV === 'development' ? localUrl : uri }}
         allowsBackForwardNavigationGestures
-        onLoadStart={handleLoadStart}
-        onLoadEnd={handleLoadEnd}
+        startInLoadingState={true}
       />
     </>
   );
