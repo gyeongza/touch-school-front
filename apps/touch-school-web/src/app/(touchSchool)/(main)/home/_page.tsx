@@ -152,7 +152,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
           loop
           animationData={completed}
           play
-          className="absolute left-1/2 top-1/2 size-96 -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-1/3 size-96 -translate-x-1/2 -translate-y-1/2"
         />
       )}
     </div>
