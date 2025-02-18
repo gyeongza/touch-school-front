@@ -14,7 +14,7 @@ export default function Navbar({ user }: NavbarProps) {
   return (
     <div className="flex h-full gap-4 overflow-x-auto">
       <AttendanceMenu />
-      <NutrientMenu />
+      <NutrientMenu user={user} />
       <SchoolRankMenu user={user} />
       <SchoolInfoButton user={user} />
     </div>
