@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { GameApi } from '../_api';
 import { GameCompleteEvent, GameResultRequest, GameResultResponse } from '../_type';
+import { revalidateUser } from '@/_actions/revalidate';
 
 interface BugKillGameProps {
   user: User;
@@ -41,7 +42,7 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
       } else {
         toast.success(`게임을 클리어하지 못했어요. 다시 도전해주세요!`);
       }
-
+      revalidateUser();
       router.push('/home');
     },
     onError: (error) => {
