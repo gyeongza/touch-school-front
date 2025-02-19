@@ -34,8 +34,6 @@ class BugKillScene extends Phaser.Scene {
     // 임시 에셋을 위한 도형 생성
     this.load.image('tree', `/trees/${getTreeImageAlias(this.userTreeLevel)}.png`);
     this.load.image('bug', '/game-assets/bug.png');
-
-    this.load.font('Pretendard', '/fonts/Pretendard-Regular.woff2');
   }
 
   create(): void {
@@ -51,7 +49,6 @@ class BugKillScene extends Phaser.Scene {
     this.levelText = this.add.text(16, 56, `${this.gameState.level}단계`, {
       fontSize: '24px',
       color: '#fff',
-      fontFamily: 'Pretendard',
     });
 
     // 중앙에 사과 배치
@@ -174,19 +171,26 @@ class BugKillScene extends Phaser.Scene {
 
     const gameCompleteText = this.add
       .text(this.cameras.main.centerX, this.cameras.main.centerY, '게임 클리어!', {
-        fontSize: '32px',
+        fontSize: '24px',
         color: '#fff',
-        fontFamily: 'Pretendard',
       })
       .setOrigin(0.5);
 
-    const scoreText = this.add
-      .text(this.cameras.main.centerX, this.cameras.main.centerY + 80, `최종 점수: ${this.gameState.score}`, {
-        fontSize: '32px',
+    const exitButton = this.add
+      .text(this.cameras.main.centerX, this.cameras.main.centerY, '물 10회 받기', {
+        fontSize: '16px',
         color: '#fff',
-        fontFamily: 'Pretendard',
+        backgroundColor: '#333333',
+        padding: { x: 10, y: 5 },
       })
-      .setOrigin(0.5);
+      .setOrigin(0.5)
+      .setInteractive({ useHandCursor: true });
+
+    exitButton.on('pointerdown', () => {
+      this.scene.stop();
+      // 게임 종료 후 홈으로 라우팅하는 이벤트 발생
+      this.events.emit('gameExit', { route: '/home' });
+    });
   }
 
   private handleGameOver(): void {
@@ -200,7 +204,6 @@ class BugKillScene extends Phaser.Scene {
       .text(this.cameras.main.centerX, this.cameras.main.centerY - 50, '나무를 지키지 못했어요 😭', {
         fontSize: '24px',
         color: '#fff',
-        fontFamily: 'Pretendard',
       })
       .setOrigin(0.5);
 
@@ -211,7 +214,6 @@ class BugKillScene extends Phaser.Scene {
         color: '#fff',
         backgroundColor: '#333333',
         padding: { x: 10, y: 5 },
-        fontFamily: 'Pretendard',
       })
       .setOrigin(0.5)
       .setInteractive({ useHandCursor: true });

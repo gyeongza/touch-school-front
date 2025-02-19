@@ -4,6 +4,7 @@ import { User } from '@/_apis/user/type';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { TreeInfo } from '../../home/_type';
+import Alert from '@/_components/common/alert';
 
 interface BugKillGameProps {
   user: User;
@@ -12,9 +13,21 @@ interface BugKillGameProps {
 
 export default function BugKillGame({ user, userTree }: BugKillGameProps) {
   const router = useRouter();
-  const { gameAvailableCount } = user;
   const gameContainerRef = useRef<HTMLDivElement>(null);
-  const [gameSize, setGameSize] = useState({ width: 448, height: 600 });
+  const [gameSize, setGameSize] = useState({ width: 448, height: 832 });
+
+  if (user.gameAvailableCount === 0) {
+    return (
+      <Alert
+        title="게임 횟수 초과"
+        description="오늘 가능한 게임 횟수를 모두 소진했어요."
+        actionText="홈으로"
+        onAction={() => {
+          router.push('/home');
+        }}
+      />
+    );
+  }
 
   useEffect(() => {
     let game: any;
@@ -23,11 +36,9 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
 
     const updateGameSize = () => {
       if (gameContainerRef.current) {
-        const containerWidth = Math.min(gameContainerRef.current.clientWidth, 448);
-        const containerHeight = Math.min(window.innerHeight - 32, containerWidth * 1.5);
         setGameSize({
-          width: containerWidth,
-          height: containerHeight,
+          width: window.innerWidth,
+          height: window.innerHeight,
         });
       }
     };
@@ -58,7 +69,7 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
           },
           scene: scene,
           scale: {
-            mode: Phaser.Scale.RESIZE,
+            mode: Phaser.Scale.FIT,
             width: '100%',
             height: '100%',
             autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -93,7 +104,5 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
     };
   }, [userTree.level, router]);
 
-  return (
-    <div ref={gameContainerRef} id="game-container" className="fixed inset-0 -m-4 mx-auto h-full w-full rounded-lg" />
-  );
+  return <div ref={gameContainerRef} id="game-container" className="fixed inset-0 mx-auto h-full w-full" />;
 }

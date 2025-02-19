@@ -23,6 +23,9 @@ export default function GameSelectDialog({ user, children }: GameSelectDialogPro
         <DialogHeader>
           <DialogTitle className="py-6">게임 선택</DialogTitle>
           <div className="flex w-full flex-col gap-4">
+            <Text typography="small" className="text-gray-500">
+              오늘 가능한 게임 횟수 : {user.gameAvailableCount}회
+            </Text>
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <Avatar className="size-10 bg-gray-100">
