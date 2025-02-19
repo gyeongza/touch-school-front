@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { TreeInfo } from '../../home/_type';
 import Alert from '@/_components/common/alert';
+import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import { GameApi } from '../_api';
+import { GameCompleteEvent, GameResultRequest, GameResultResponse } from '../_type';
 
 interface BugKillGameProps {
   user: User;
@@ -29,8 +33,26 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
     );
   }
 
+  const { mutate: completeGame } = useMutation({
+    mutationFn: (data: GameResultRequest) => GameApi.postPlayResult(data),
+    onSuccess: (data: GameResultResponse) => {
+      if (data.gameCompleted) {
+        toast.success(`게임을 완료하여 물주기 ${data.waterCount}회 획득했어요!`);
+      } else {
+        toast.success(`게임을 클리어하지 못했어요. 다시 도전해주세요!`);
+      }
+
+      router.push('/home');
+    },
+    onError: (error) => {
+      console.error('게임 데이터 전송 실패:', error);
+      toast.error('게임 데이터 전송에 실패했어요.');
+      router.push('/home');
+    },
+  });
+
   useEffect(() => {
-    let game: any;
+    let game: Phaser.Game;
     let Phaser: any;
     let BugKillScene: any;
 
@@ -82,8 +104,12 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
         game.events.once('ready', () => {
           const gameScene = game.scene.getScene('BugKillScene');
           if (gameScene) {
-            gameScene.events.on('gameExit', ({ route }: { route: string }) => {
-              router.push(route);
+            gameScene.events.on('gameExit', (data: GameCompleteEvent) => {
+              router.push(data.route);
+            });
+
+            gameScene.events.on('gameComplete', (data: GameCompleteEvent) => {
+              completeGame(data.gameData);
             });
           }
         });
@@ -102,7 +128,7 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
         game.destroy(true);
       }
     };
-  }, [userTree.level, router]);
+  }, [userTree.level, router, completeGame]);
 
   return <div ref={gameContainerRef} id="game-container" className="fixed inset-0 mx-auto h-full w-full" />;
 }

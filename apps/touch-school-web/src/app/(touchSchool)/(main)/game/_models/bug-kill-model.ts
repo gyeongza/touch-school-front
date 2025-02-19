@@ -170,7 +170,7 @@ class BugKillScene extends Phaser.Scene {
     this.bugs = [];
 
     const gameCompleteText = this.add
-      .text(this.cameras.main.centerX, this.cameras.main.centerY, '게임 클리어!', {
+      .text(this.cameras.main.centerX, this.cameras.main.centerY - 50, '게임 클리어!', {
         fontSize: '24px',
         color: '#fff',
       })
@@ -187,9 +187,14 @@ class BugKillScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true });
 
     exitButton.on('pointerdown', () => {
+      this.events.emit('gameComplete', {
+        route: '/home',
+        gameData: {
+          completedLevels: Array.from({ length: 3 }, (_, i) => i + 1),
+          gameType: 'bug-kill',
+        },
+      });
       this.scene.stop();
-      // 게임 종료 후 홈으로 라우팅하는 이벤트 발생
-      this.events.emit('gameExit', { route: '/home' });
     });
   }
 
@@ -219,9 +224,14 @@ class BugKillScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true });
 
     exitButton.on('pointerdown', () => {
+      this.events.emit('gameComplete', {
+        route: '/home',
+        gameData: {
+          completedLevels: Array.from({ length: this.gameState.level - 1 }, (_, i) => i + 1),
+          gameType: 'bug-kill',
+        },
+      });
       this.scene.stop();
-      // 게임 종료 후 홈으로 라우팅하는 이벤트 발생
-      this.events.emit('gameExit', { route: '/home' });
     });
   }
 
