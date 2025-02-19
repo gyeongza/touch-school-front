@@ -6,9 +6,11 @@ export interface GameResultRequest {
 }
 
 export interface GameResultResponse {
-  message: string;
-  waterCount: number;
-  gameCompleted: boolean;
+  result: {
+    message: string;
+    waterCount: number;
+    gameCompleted: boolean;
+  };
 }
 
 export interface GameCompleteEvent {

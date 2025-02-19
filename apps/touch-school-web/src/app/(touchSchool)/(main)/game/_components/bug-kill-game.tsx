@@ -37,10 +37,11 @@ const BugKillGame = ({ user, userTree }: BugKillGameProps): JSX.Element => {
   const { mutate: completeGame } = useMutation({
     mutationFn: (data: GameResultRequest) => GameApi.postPlayResult(data),
     onSuccess: (data: GameResultResponse) => {
-      if (data.gameCompleted) {
-        toast.success(`게임을 완료하여 물주기 ${data.waterCount}회 획득했어요!`);
+      console.log(data);
+      if (data.result.gameCompleted) {
+        toast.success(`게임을 완료하여 물주기 ${data.result.waterCount}회 획득했어요!`);
       } else {
-        toast.success(`게임을 클리어하지 못했어요. 다시 도전해주세요!`);
+        toast.info(`게임을 클리어하지 못했어요. 다시 도전해주세요!`);
       }
       revalidateUser();
       router.push('/home');
