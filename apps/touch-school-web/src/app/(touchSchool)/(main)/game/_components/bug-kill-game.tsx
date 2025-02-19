@@ -16,7 +16,7 @@ interface BugKillGameProps {
   userTree: TreeInfo;
 }
 
-export default function BugKillGame({ user, userTree }: BugKillGameProps) {
+const BugKillGame = ({ user, userTree }: BugKillGameProps): JSX.Element => {
   const router = useRouter();
   const gameContainerRef = useRef<HTMLDivElement>(null);
   const [gameSize, setGameSize] = useState({ width: 448, height: 832 });
@@ -132,4 +132,6 @@ export default function BugKillGame({ user, userTree }: BugKillGameProps) {
   }, [userTree.level, router, completeGame]);
 
   return <div ref={gameContainerRef} id="game-container" className="fixed inset-0 mx-auto h-full w-full" />;
-}
+};
+
+export default BugKillGame;
