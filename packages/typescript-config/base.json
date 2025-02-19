@@ -19,7 +19,12 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ES2022"
+    "target": "ES2022",
+    "resolveJsonModule": true,
+    "paths": {
+      "*": ["./node_modules/*"]
+    },
+    "types": ["phaser"]
   },
   "exclude": ["node_modules"]
 }

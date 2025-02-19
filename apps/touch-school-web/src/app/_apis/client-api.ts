@@ -1,5 +1,5 @@
 import { saveAccessTokenInCookies } from '@/_actions/cookies';
-import { ResponseInterceptor } from '../_lib/extend-fetch';
+import { ResponseGenericBody, ResponseInterceptor } from '../_lib/extend-fetch';
 import Fetchios from '../_lib/fetchios';
 import { AuthData } from './type';
 
@@ -31,6 +31,11 @@ export const saveAccessToken = async (token: AuthData) => {
 function createAccessTokenResponseInterceptor(): ResponseInterceptor {
   return async (res, requestArgs) => {
     try {
+      const responseBody = res.body as { body?: AuthData };
+      if (!responseBody?.body?.accessToken) {
+        return res;
+      }
+
       const {
         body: { accessToken, accessTokenExpiryTime },
       } = res.body as { body: AuthData };

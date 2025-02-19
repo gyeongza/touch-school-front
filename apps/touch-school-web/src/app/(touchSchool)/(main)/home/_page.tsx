@@ -21,6 +21,7 @@ import Lottie from 'react-lottie-player';
 import completed from '@/public/completed.json';
 import { LuLogOut } from 'react-icons/lu';
 import LogoutDialog from './_components/logout-dialog';
+import { getTreeImageAlias } from './_utils';
 
 interface MainPageProps {
   user: User;
@@ -108,7 +109,12 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
       </div>
 
       <div className="flex justify-center">
-        <Image src="/trees/tree-level-1.png" alt="tree-level-1" width={250} height={250} />
+        <Image
+          src={`/trees/${getTreeImageAlias(localTreeInfo.level)}.png`}
+          alt={getTreeImageAlias(localTreeInfo.level)}
+          width={250}
+          height={250}
+        />
       </div>
 
       <div className="flex flex-col items-center gap-4">
@@ -137,7 +143,7 @@ export default function MainPage({ user, treeInfo }: MainPageProps) {
           loop
           animationData={completed}
           play
-          className="absolute left-1/2 top-1/2 size-96 -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-1/3 size-96 -translate-x-1/2 -translate-y-1/2"
         />
       )}
     </div>

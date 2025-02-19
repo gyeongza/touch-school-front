@@ -8,6 +8,7 @@ import { Text } from '@/_components/common/Text';
 import { Button } from '@repo/ui/button';
 import { LoginApi } from '../_api';
 import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
 interface CodeInputFormProps {
   phoneNumber: string;
@@ -58,7 +59,7 @@ export default function CodeInputForm({ phoneNumber }: CodeInputFormProps) {
     },
   });
 
-  const { mutate: verifyCode } = useMutation({
+  const { mutate: verifyCode, isPending: isVerifyCodePending } = useMutation({
     mutationFn: () => LoginApi.verifyCode(phoneNumber, code),
     onSuccess: async (res) => {
       if (res.isExistingUser) {
@@ -96,8 +97,8 @@ export default function CodeInputForm({ phoneNumber }: CodeInputFormProps) {
           </Button>
         </div>
       </div>
-      <Button className="sticky bottom-0" onClick={() => verifyCode()} disabled={isExpired}>
-        인증하기
+      <Button className="sticky bottom-0" onClick={() => verifyCode()} disabled={isExpired || isVerifyCodePending}>
+        {isVerifyCodePending ? <Loader2 className="size-4 animate-spin" /> : '인증하기'}
       </Button>
     </>
   );

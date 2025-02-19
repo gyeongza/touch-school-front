@@ -13,7 +13,8 @@ export const setAccessTokenCookie = (
   cookies.set(COOKIES.ACCESS_TOKEN, accessToken, {
     expires: new Date(accessTokenExpiryTime),
     httpOnly: true,
-    secure: true,
+    // 프로덕션 환경에서만 쿠키를 설정 (http에서도 쿠키를 읽을 수 있도록)
+    secure: process.env.NODE_ENV === 'production',
     sameSite: 'none',
   });
 };

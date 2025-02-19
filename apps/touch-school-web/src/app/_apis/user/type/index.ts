@@ -16,6 +16,7 @@ export interface User {
     id: number;
     createdAt: Date;
   }[];
+  gameAvailableCount: number;
 }
 
 export interface GetUserResponse extends User {}

@@ -2,19 +2,23 @@
   "folders": [
     {
       "name": "TOUCH-SCHOOL",
-      "path": "../"
+      "path": "../",
     },
     {
       "name": "WEB",
-      "path": "../apps/touch-school-web"
+      "path": "../apps/touch-school-web",
+    },
+    {
+      "name": "APP",
+      "path": "../apps/touch-school-app",
     },
     {
       "name": "UI",
-      "path": "../packages/ui"
+      "path": "../packages/ui",
     },
     {
       "name": "CONFIG",
-      "path": "../packages"
-    }
-  ]
+      "path": "../packages",
+    },
+  ],
 }
