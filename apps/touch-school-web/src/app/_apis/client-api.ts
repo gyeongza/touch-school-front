@@ -41,14 +41,7 @@ function createAccessTokenResponseInterceptor(): ResponseInterceptor {
       } = res.body as { body: AuthData };
       await saveAccessToken({ accessToken, accessTokenExpiryTime });
 
-      const newRes = await clientApi.request(requestArgs[0], {
-        ...requestArgs[1],
-        headers: {
-          ...requestArgs[1]?.headers,
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return newRes;
+      return res;
     } catch (error) {
       console.error(error);
       return res;

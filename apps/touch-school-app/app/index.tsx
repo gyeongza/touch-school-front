@@ -3,8 +3,11 @@ import { WebView } from 'react-native-webview';
 import { BackHandler } from 'react-native';
 
 export default function Index() {
-  const uri = process.env.EXPO_PUBLIC_URL ?? '';
+  const uri = process.env.EXPO_PUBLIC_API_URL ?? '';
   const localUrl = process.env.EXPO_PUBLIC_LOCAL_URL ?? '';
+
+  const targetUrl = process.env.NODE_ENV === 'development' ? localUrl : uri;
+
   const webviewRef = useRef<WebView>(null);
 
   const onAndroidBackPress = useCallback(() => {
@@ -26,7 +29,7 @@ export default function Index() {
     <>
       <WebView
         ref={webviewRef}
-        source={{ uri: process.env.NODE_ENV === 'development' ? localUrl : uri }}
+        source={{ uri: targetUrl }}
         allowsBackForwardNavigationGestures
         startInLoadingState={true}
       />
